@@ -1,6 +1,6 @@
 # this will send the following event twice,
-# first will be correctly enriched with sessionid and trackingid cookies
-# while the second will not, even though the sessionid is present in the cookie header
+# first will be correctly enriched with the "wanted_cookie"
+# while the second will not, even though the "wanted_cookie" is present
 
 # {
 #     "schema":"iglu:com.snowplowanalytics.snowplow/unstruct_event/jsonschema/1-0-0",
@@ -19,7 +19,7 @@ PAYLOAD=$(echo $PAYLOAD_TEMPLATE | sed "s/###TIMESTAMP###/$TIMESTAMP/g" | sed "s
 
 curl 'http://localhost:9090/com.snowplowanalytics.snowplow/tp2' \
   -H 'content-type: application/json' \
-  -H 'Cookie: wanted_cookie=crucial_value; AS_JSON={\"Key\":"Value"};' \
+  -H 'Cookie: wanted_cookie=crucial_value; AS_JSON={\"Key\":\"Value\"};' \
   -H 'origin: https://www.idealo.de' \
   -H 'referer: https://www.idealo.de/' \
   -H 'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36 Edg/129.0.0.0' \
@@ -33,7 +33,7 @@ PAYLOAD=$(echo $PAYLOAD_TEMPLATE | sed "s/###TIMESTAMP###/$TIMESTAMP/g" | sed "s
 
 curl 'http://localhost:9090/com.snowplowanalytics.snowplow/tp2' \
   -H 'content-type: application/json' \
-  -H 'Cookie: AS_JSON={\"Key\":"Value"}; wanted_cookie=crucial_value;' \
+  -H 'Cookie: AS_JSON={\"Key\":\"Value\"}; wanted_cookie=crucial_value;' \
   -H 'origin: https://www.idealo.de' \
   -H 'referer: https://www.idealo.de/' \
   -H 'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36 Edg/129.0.0.0' \
